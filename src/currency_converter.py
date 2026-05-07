@@ -1,17 +1,19 @@
 import requests
-import json
 from typing import Dict, Optional
+import os
+import json  # необходим для обработки JSONDecodeError
 
-def convert_currency(transaction: Dict) -> Optional[Dict]:
+def convert_currency(transaction: Dict) -> Optional[float]:
     """
-    Конвертирует валюту по данным из транзакции.
+    Конвертирует валюту по данным из транзакции, используя эндпоинт convert API Apilayer.
+    Возвращает только сумму типа float или None в случае ошибки.
     """
     # 1. Проверка на None
     if transaction is None:
         print("Ошибка: транзакция не предоставлена (None)")
         return None
 
-    # 2. Проверка обязательных ключей в структуре transaction
+    # 2. Проверка обязательных ключей
     if 'operationAmount' not in transaction:
         print("Ошибка: отсутствует ключ 'operationAmount' в транзакции")
         return None
@@ -40,44 +42,40 @@ def convert_currency(transaction: Dict) -> Optional[Dict]:
 
     target_currency = 'RUB'
 
-    # 4. Проверка, есть ли уже готовый курс в транзакции
-    if 'conversionRate' in transaction and 'rate' in transaction['conversionRate']:
-        exchange_rate = float(transaction['conversionRate']['rate'])
-    else:
-        # 5. Запрос к API для получения курса
-        try:
-            url = f"https://api.exchangerate-api.com/v4/latest/{original_currency}"  # или http://
-            response = requests.get(url, timeout=10)
-            response.raise_for_status()
-            data = response.json()
+    # 4. Запрос к API через эндпоинт convert
+    try:
+        url = "https://api.apilayer.com/exchangerates_data/convert"
+        params = {
+            "from": original_currency,
+            "to": target_currency,
+            "amount": original_amount
+        }
+        headers = {
+            "apikey": os.getenv("APILAYER_API_KEY")
+        }
 
-            if 'rates' not in data:
-                print("Ошибка: в ответе API отсутствует поле 'rates'")
-                return None
-            if target_currency not in data['rates']:
-                print(f"Курс для валюты {target_currency} не найден в ответе API")
-                return None
+        response = requests.get(url, params=params, headers=headers, timeout=10)
+        response.raise_for_status()
+        data = response.json()
 
-            exchange_rate = data['rates'][target_currency]
-        except requests.exceptions.RequestException as e:
-            print(f"Ошибка при обращении к API: {e}")
+        # 5. Извлечение готовой суммы из ответа API
+        if data.get("success") and "result" in data:
+            return float(data["result"])
+        else:
+            # Безопасная обработка ошибки: проверяем тип data
+            if isinstance(data, dict) and "error" in data:
+                error_info = data["error"].get("info", "Неизвестный ответ API")
+            else:
+                error_info = "Некорректный формат ответа API"
+            print(f"Ошибка API: {error_info}")
             return None
-        except KeyError as e:
-            print(f"Ошибка обработки ответа API: отсутствует ключ {e}")
-            return None
-        except Exception as e:
-            print(f"Неожиданная ошибка при обращении к API: {e}")
-            return None
 
-    # 6. Расчёт и формирование результата
-    converted_amount = round(original_amount * exchange_rate, 2)
-
-    result = {
-        "original_amount": original_amount,
-        "original_currency": original_currency,
-        "target_amount": converted_amount,
-        "target_currency": target_currency,
-        "exchange_rate": exchange_rate,
-        "status": "success"
-    }
-    return result
+    except requests.exceptions.RequestException as e:
+        print(f"Ошибка при обращении к API: {e}")
+        return None
+    except (KeyError, ValueError, TypeError) as e:
+        print(f"Ошибка обработки ответа API: {e}")
+        return None
+    except json.JSONDecodeError as e:  # Обработка не-JSON ответов
+        print(f"Ошибка парсинга JSON: {e}")
+        return None
