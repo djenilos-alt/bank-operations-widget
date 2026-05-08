@@ -9,7 +9,6 @@ class TestMasks:
         assert True
 
     @pytest.mark.parametrize(
-
     "input_string,expected", [
         ("Visa Platinum 7000792289606361", "Visa Platinum 7000 79** **** 6361"),
         ("Maestro 1596837868705199", "Maestro 1596 83** **** 5199"),

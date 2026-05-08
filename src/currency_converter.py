@@ -3,6 +3,7 @@ from typing import Dict, Optional
 import os
 import json  # необходим для обработки JSONDecodeError
 
+
 def convert_currency(transaction: Dict) -> Optional[float]:
     """
     Конвертирует валюту по данным из транзакции, используя эндпоинт convert API Apilayer.

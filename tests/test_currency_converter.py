@@ -3,6 +3,7 @@ from unittest.mock import patch, Mock
 import requests
 from src.currency_converter import convert_currency
 
+
 class TestCurrencyConverter:
     """Тесты для функции конвертации валюты."""
 
