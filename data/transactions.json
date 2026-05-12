@@ -1,0 +1,21 @@
+[
+  {
+    "operationAmount": {
+      "amount": 100,
+      "currency": {
+        "code": "USD"
+      }
+    },
+    "conversionRate": {
+      "rate": 92.5
+    }
+  },
+  {
+    "operationAmount": {
+      "amount": 50,
+      "currency": {
+        "code": "EUR"
+      }
+    }
+  }
+]
