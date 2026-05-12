@@ -5,7 +5,6 @@ def get_mask_card_number(card_number: str) -> str:
         raise ValueError("Invalid card number")
     return f"{cleaned[:4]} {cleaned[4:6]}** **** {cleaned[-4:]}"
 
-
 def get_mask_account(account_number: str) -> str:
     """Маскирует номер счёта."""
     cleaned = account_number.replace(' ', '')
