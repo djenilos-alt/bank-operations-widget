@@ -22,14 +22,10 @@ dev = [
     "pytest-cov>=7.0; python_version >= '3.9'",
     "flake8>=7.0",
     "mypy>=1.9",
-    "isort>=5.13"
+    "isort>=5.13",
 ]
 
 # Конфигурация Black
-dev = [
-    "pytest (>=9.0.3,<10.0.0)",
-    "pytest-cov (>=7.1.0,<8.0.0)"
-]
 [tool.black]
 line-length = 119
 exclude = '''
