@@ -1,10 +1,12 @@
 import pytest
 from datetime import datetime
 
+
 @pytest.fixture
 def sample_card_numbers():
     """Фикстура с тестовыми номерами карт."""
     return ["1234567890123456", "4000008000000000", "5555444433332222"]
+
 
 @pytest.fixture
 def sample_account_numbers():
@@ -37,6 +39,7 @@ def sample_transactions():
             'currency': 'руб.'
         }
     ]
+
 
 @pytest.fixture
 def invalid_transactions():

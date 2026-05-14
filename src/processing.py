@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import List, Dict, Optional
 
+
 def filter_by_state(
     transactions_list: List[Dict[str, str]],
     state_value: str = 'EXECUTED'
@@ -22,6 +23,7 @@ def filter_by_state(
         for transaction in transactions_list
         if transaction.get('state') == state_value
     ]
+
 
 def sort_by_date(
     transactions_list: List[Dict[str, str]],

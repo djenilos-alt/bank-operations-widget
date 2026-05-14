@@ -1,6 +1,7 @@
 import pytest
 from src.widget import mask_account_card
 
+
 class TestWidget:
     @pytest.mark.parametrize(
         "input_string,expected",
