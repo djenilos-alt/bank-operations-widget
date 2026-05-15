@@ -1,5 +1,7 @@
 import json
-from typing import List, Dict, Any
+from typing import Any
+from typing import Dict
+from typing import List
 
 
 def read_json_file(file_path: str) -> List[Dict[str, Any]]:
