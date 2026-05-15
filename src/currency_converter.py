@@ -1,7 +1,9 @@
-import requests
-from typing import Dict, Optional
-import os
 import json  # необходим для обработки JSONDecodeError
+import os
+from typing import Dict
+from typing import Optional
+
+import requests
 
 
 def convert_currency(transaction: Dict) -> Optional[float]:

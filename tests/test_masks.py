@@ -1,4 +1,5 @@
-impimport pytest
+import pytest
+
 from src.masks import get_mask_account
 from src.masks import get_mask_card_number
 
@@ -6,8 +7,8 @@ from src.masks import get_mask_card_number
 class TestMasks:
 
     @pytest.mark.parametrize("card_number,expected", [
-        ("1234567890123456", "1234 56** **** 3456"),
-        ("4000008000000000", "4000 00** **** 0000")
+        ("1234567890123456", "1234 56****** 3456"),
+        ("4000008000000000", "4000 00****** 0000")
     ])
     def test_get_mask_card_number_valid(self, card_number, expected):
         """Тест корректной маскировки номера карты."""
