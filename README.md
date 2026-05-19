@@ -12,3 +12,26 @@
 ### Покрытие кода
 
 * Модуль `masks`: 90 %
+
+## Новая функциональность
+
+Добавлена поддержка чтения финансовых операций из разных форматов файлов:
+
+* **JSON** — существующий формат (`read_json_file`)
+* **CSV** — новый формат (`read_csv_file`)
+* **Excel (.xlsx)** — новый формат (`read_excel_file`)
+
+### Использование
+
+```python
+from src.utils import read_json_file
+from src.file_readers import read_csv_file, read_excel_file
+
+# Чтение из JSON
+json_transactions = read_json_file("data/operations.json")
+
+# Чтение из CSV
+csv_transactions = read_csv_file("transactions.csv")
+
+# Чтение из Excel
+excel_transactions = read_excel_file("transactions_excel.xlsx")
