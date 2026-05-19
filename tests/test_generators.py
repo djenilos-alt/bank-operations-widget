@@ -1,10 +1,9 @@
 import pytest
-from src.generators import (
-    transaction_generator,
-    filtered_transaction_generator,
-    amount_generator,
-    date_generator
-)
+
+from src.generators import amount_generator
+from src.generators import date_generator
+from src.generators import filtered_transaction_generator
+from src.generators import transaction_generator
 
 
 class TestGenerators:

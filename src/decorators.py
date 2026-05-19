@@ -1,9 +1,10 @@
 import functools
 import time
-from typing import Any, Callable, Optional
+from collections.abc import Callable
+from typing import Any
 
 
-def log(filename: Optional[str] = None) -> Callable:
+def log(filename: str | None = None) -> Callable[..., Any]:
     """
     Декоратор для логирования вызовов функций.
 
@@ -33,9 +34,9 @@ def log(filename: Optional[str] = None) -> Callable:
         >>> divide(10, 2)
         # Логи будут записаны в файл app.log
     """
-    def decorator(func: Callable) -> Callable:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         @functools.wraps(func)
-        def wrapper(*args, **kwargs) -> Any:
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             # Форматируем аргументы для логирования
             args_repr = [repr(a) for a in args]
             kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]

@@ -1,6 +1,9 @@
+from unittest.mock import Mock
+from unittest.mock import patch
+
 import pytest
-from unittest.mock import patch, Mock
 import requests
+
 from src.currency_converter import convert_currency
 
 
