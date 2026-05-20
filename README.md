@@ -35,3 +35,10 @@ csv_transactions = read_csv_file("transactions.csv")
 
 # Чтение из Excel
 excel_transactions = read_excel_file("transactions_excel.xlsx")
+
+## Функциональность
+
+* Чтение транзакций из CSV, Excel и JSON.
+* Поиск транзакций по строке с использованием регулярных выражений.
+* Подсчёт операций по категориям с использованием `Counter`.
+* Интерактивный пользовательский интерфейс с фильтрацией и сортировкой.
