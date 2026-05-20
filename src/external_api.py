@@ -1,7 +1,9 @@
-import requests
 import os
+from typing import Any
+from typing import Dict
+
+import requests
 from dotenv import load_dotenv
-from typing import Dict, Any
 
 load_dotenv()
 
@@ -26,7 +28,7 @@ def convert_to_rubles(transaction: Dict[str, Any]) -> float:
         rates = response.json().get('rates', {})
 
         if currency in rates:
-            rate = rates[currency]
+            rate = float(rates[currency])
             return amount * rate
         else:
             raise ValueError(f"Unsupported currency: {currency}")

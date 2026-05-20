@@ -1,20 +1,46 @@
-from src.masks import get_mask_card_number, get_mask_account
+import re
+from datetime import datetime
 
-def mask_account_card(input_string: str) -> str:
-    """Определяет тип и маскирует карту или счёт."""
-    if 'Счёт' in input_string or 'счет' in input_string.lower():
-        account_part = input_string.split()[-1]
-        masked = get_mask_account(account_part)
-        return f"Счёт {masked}" if 'Счёт' in input_string else f"счёт {masked}"
-    else:
-        card_part = input_string.split()[-1]
-        masked = get_mask_card_number(card_part)
-        return f"{input_string[:-16]}{masked}"
+from src.masks import get_mask_account
+from src.masks import get_mask_card_number
+
+
+def mask_account_card(data: str) -> str:
+    """
+    Маскирует номер карты или счёта.
+    При невалидных данных возвращает исходную строку.
+    """
+
+    if not data.strip():
+        return data
+
+    digits = re.sub(r"\D", "", data)
+    name = re.sub(r"[\d\s]+$", "", data).strip()
+
+    try:
+        # Счёт
+        if name.lower() in ["счет", "счёт"]:
+            return f"{name} {get_mask_account(digits)}".strip()
+
+        # Карта или просто номер карты
+        if digits:
+            masked = get_mask_card_number(digits)
+
+            if name:
+                return f"{name} {masked}".strip()
+
+            return masked
+
+    except ValueError:
+        return data
+
+    return data
+
 
 def get_date(date_string: str) -> str:
-    """Преобразует дату из ISO в ДД.ММ.ГГГГ."""
-    try:
-        date_obj = datetime.fromisoformat(date_string)
-        return date_obj.strftime("%d.%m.%Y")
-    except (ValueError, TypeError):
-        return date_string
+    """
+    Преобразует дату из ISO-формата в DD.MM.YYYY
+    """
+
+    dt = datetime.fromisoformat(date_string)
+    return dt.strftime("%d.%m.%Y")
