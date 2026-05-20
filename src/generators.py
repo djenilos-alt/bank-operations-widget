@@ -1,5 +1,8 @@
 from collections.abc import Iterator
-from typing import Any, List, Dict, Optional
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
 
 
 def transaction_generator(
